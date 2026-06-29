@@ -9,6 +9,8 @@ import PromoBanner from "../components/PromoBanner";
 import ProductSlider from "../components/ProductSlider";
 import TestimonialSlider from "../components/TestimonialSlider";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 export default function Home() {
   const [catalog, setCatalog] = useState([]);
   const [cart, setCart] = useState([]);
@@ -38,12 +40,12 @@ export default function Home() {
 
       try {
         // Fetch product catalog
-        const prodRes = await fetch("http://localhost:5000/api/products");
+        const prodRes = await fetch(`${API_URL}/api/products`);
         const prodData = await prodRes.json();
         setCatalog(prodData.products || []);
 
         // Fetch current user cart
-        const cartRes = await fetch("http://localhost:5000/api/cart", {
+        const cartRes = await fetch(`${API_URL}/api/cart`, {
           headers: { "x-session-id": sId },
         });
         const cartData = await cartRes.json();
@@ -61,7 +63,7 @@ export default function Home() {
   // Update Cart handler
   const handleAddToCart = async (productId) => {
     try {
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch(`${API_URL}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -445,10 +447,11 @@ export default function Home() {
                   <form 
                     onSubmit={async (e) => {
                       e.preventDefault();
+                      const API_URL = "http://localhost:5000";
                       setIsCheckoutLoading(true);
                       // Clear cart on backend
                       try {
-                        await fetch("http://localhost:5000/api/cart/clear", {
+                        await fetch(`${API_URL}/api/cart/clear`, {
                           method: "POST",
                           headers: { "x-session-id": sessionId }
                         });

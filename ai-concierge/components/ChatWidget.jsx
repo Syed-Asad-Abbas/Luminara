@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useChat } from "@ai-sdk/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send, Sparkles, ShoppingCart, Trash2 } from "lucide-react";
 import ProductCard from "./ProductCard";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function ChatWidget({ catalog = [], cart = [], onCartUpdate }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,7 +124,7 @@ export default function ChatWidget({ catalog = [], cart = [], onCartUpdate }) {
   // Handle direct "Add to Cart" inside the chat card
   const handleAddToCart = async (productId) => {
     try {
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch(`${API_URL}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

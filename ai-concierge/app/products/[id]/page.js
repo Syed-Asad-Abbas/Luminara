@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, X, ArrowLeft, Star, ShieldCheck, Heart, Sparkles, Check } from "lucide-react";
 import ChatWidget from "../../../components/ChatWidget";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 // Helper to render beautiful placeholder SVGs if image fails
 const ProductImagePlaceholder = ({ category }) => {
   let gradientColors = "from-orange-200 to-amber-100";
@@ -60,18 +62,18 @@ export default function ProductDetailPage() {
       if (!id) return;
       try {
         // Fetch current product
-        const prodRes = await fetch(`http://localhost:5000/api/products/${id}`);
+        const prodRes = await fetch(`${API_URL}/api/products/${id}`);
         if (!prodRes.ok) throw new Error("Product not found");
         const prodData = await prodRes.json();
         setProduct(prodData.product);
 
         // Fetch full catalog (for chat widget lookup)
-        const catalogRes = await fetch("http://localhost:5000/api/products");
+        const catalogRes = await fetch(`${API_URL}/api/products`);
         const catalogData = await catalogRes.json();
         setCatalog(catalogData.products || []);
 
         // Fetch user cart
-        const cartRes = await fetch("http://localhost:5000/api/cart", {
+        const cartRes = await fetch(`${API_URL}/api/cart`, {
           headers: { "x-session-id": sId },
         });
         const cartData = await cartRes.json();
@@ -89,7 +91,7 @@ export default function ProductDetailPage() {
   const handleAddToCart = async (pId = id) => {
     try {
       setIsAdding(true);
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch(`${API_URL}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -486,7 +488,7 @@ export default function ProductDetailPage() {
                       setIsCheckoutLoading(true);
                       // Clear cart on backend
                       try {
-                        await fetch("http://localhost:5000/api/cart/clear", {
+                        await fetch(`${API_URL}/api/cart/clear`, {
                           method: "POST",
                           headers: { "x-session-id": sessionId }
                         });
