@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --background: #faf8f6;
+  --foreground: #1c1917;
+  --card: #ffffff;
+  --card-foreground: #1c1917;
+  --primary: #7c2d12; /* Rich warm copper/terracotta */
+  --primary-foreground: #fcfbfa;
+  --accent: #d97706; /* Golden warm glow */
+  --muted: #78716c;
+  --border: #e7e5e4;
+  --radius-xl: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --radius-xl: var(--radius-xl);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Glassmorphism Class */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark-glass {
+  background: rgba(28, 25, 23, 0.85);
+  backdrop-filter: blur(20px) saturate(100%);
+  -webkit-backdrop-filter: blur(20px) saturate(100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Elegant Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 45, 18, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 45, 18, 0.3);
+}
+
+/* Top-layer transition styles using modern CSS standards */
+@starting-style {
+  .chat-widget-panel[data-open="true"] {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+}
+
+.chat-widget-panel {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
